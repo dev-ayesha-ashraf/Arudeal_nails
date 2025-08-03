@@ -1,0 +1,22 @@
+version: "3.3"
+
+services:
+  app:
+    container_name: nail_frontend
+    build:
+      context: .
+      dockerfile: dockerfile
+      args:
+        - NODE_ENV=production
+        - VITE_API_URL=${VITE_API_URL}
+        # - VITE_IMAGE_URL=${VITE_IMAGE_URL}
+    env_file:
+      - .env
+    ports:
+      - "4090:4090"
+    networks:
+      - nginx-proxy-net
+
+networks:
+  nginx-proxy-net:
+    external: true

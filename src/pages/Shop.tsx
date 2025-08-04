@@ -51,10 +51,6 @@ const Shop: React.FC = () => {
       );
     }
 
-    // if (!outOfStock) {
-    //   filtered = filtered.filter((listing) => listing.stock > 0);
-    // }
-
     setFilteredListings(filtered);
   }, [listings, selectedCategories, outOfStock]);
 
@@ -162,7 +158,7 @@ const Shop: React.FC = () => {
           </h1>
 
           {/* Product Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
             {filteredListings.length > 0 ? (
               filteredListings.map((listing) => (
                 <CollectionCard key={listing._id} listing={listing} />

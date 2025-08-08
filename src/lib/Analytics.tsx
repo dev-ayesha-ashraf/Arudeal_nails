@@ -1,6 +1,6 @@
-// src/lib/analytics.ts
 import ReactGA from "react-ga4";
-const MEASUREMENT_ID = import.meta.env.VITE_MEASUREMENT_ID;
+
+const MEASUREMENT_ID = import.meta.env.VITE_GA_MEASUREMENT_ID;
 
 export const initGA = () => {
   if (!MEASUREMENT_ID) {

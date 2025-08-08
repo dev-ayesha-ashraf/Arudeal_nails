@@ -1,15 +1,30 @@
 // routes/AppRoutes.tsx
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route , useLocation } from "react-router-dom";
 import Home from "../pages/Home";
 import Shop from "../pages/Shop";
 import Services from "../pages/Services";
 import ListingDetail from "../pages/ListingDetail";
 import Layout from "../components/Layout";
 import CartPage from "../pages/CartPage";
+import { initGA, trackPageview } from "../lib/Analytics";
+import { useEffect } from "react";
+function AnalyticsListener() {
+  const location = useLocation();
+
+  useEffect(() => {
+    trackPageview(location.pathname + location.search);
+  }, [location]);
+
+  return null;
+}
 
 export default function AppRoutes() {
+  useEffect(() => {
+    initGA();
+  }, []);
   return (
     <Router>
+      <AnalyticsListener />
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />

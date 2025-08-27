@@ -1,5 +1,6 @@
 import React from "react";
 import { Sparkles } from "lucide-react";
+import { trackEvent } from "../lib/initPixel";
 type Service = {
   name: string;
   description: string;
@@ -65,9 +66,21 @@ const Services: React.FC = () => {
                 <h3 className="text-lg font-semibold text-gray-800">{service.name}</h3>
                 <p className="text-sm text-gray-600 mt-1 mb-3">{service.description}</p>
                 <div className="flex justify-between items-center">
-                  <button className="px-3 py-1.5 bg-pink-500 text-white rounded font-medium text-sm hover:bg-pink-600 transition">
+                  <button
+                    onClick={() => {
+                      trackEvent("Lead", {
+                        content_name: service.name,     // Service name (e.g., "Luxury Pedicure")
+                        content_category: "Nail Service",
+                        value: Number(service.price.replace(/[^0-9.]/g, "")) || 0, // Extract number from price
+                        currency: "USD"  // or "AWG" if you want consistency
+                      });
+                      // TODO: add booking navigation or modal later
+                    }}
+                    className="px-3 py-1.5 bg-pink-500 text-white rounded font-medium text-sm hover:bg-pink-600 transition"
+                  >
                     Book Now
                   </button>
+
                   <span className="text-pink-700 font-semibold text-sm">{service.price}</span>
                 </div>
               </div>

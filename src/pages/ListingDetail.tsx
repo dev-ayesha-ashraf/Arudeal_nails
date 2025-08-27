@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { Phone, ChevronLeft, ChevronRight } from 'lucide-react';
 import type { Listing, Seller } from '../types/listing';
 import { getImageUrl } from '../utils/image';
+import { trackEvent } from '../lib/initPixel';
 
 const ListingDetail: React.FC = () => {
     const { id } = useParams<{ id: string }>();
@@ -84,10 +85,16 @@ const ListingDetail: React.FC = () => {
                             {images.map((img, index) => (
                                 <button
                                     key={index}
-                                    onClick={() => setCurrentImageIndex(index)}
-                                    className={`w-20 h-16 rounded border-2 ${index === currentImageIndex
-                                        ? 'border-pink-600'
-                                        : 'border-transparent'
+                                    onClick={() => {
+                                        setCurrentImageIndex(index);
+                                        trackEvent("ViewContent", {
+                                            content_name: listing.title,
+                                            content_type: "image",
+                                            content_id: listing._id,
+                                            image_index: index + 1
+                                        });
+                                    }}
+                                    className={`w-20 h-16 rounded border-2 ${index === currentImageIndex ? "border-pink-600" : "border-transparent"
                                         } overflow-hidden`}
                                 >
                                     <img
@@ -96,6 +103,7 @@ const ListingDetail: React.FC = () => {
                                         className="w-full h-full object-cover"
                                     />
                                 </button>
+
                             ))}
                         </div>
                     )}
@@ -129,11 +137,19 @@ const ListingDetail: React.FC = () => {
                         {seller?.phone && (
                             <a
                                 href={`tel:${seller.phone}`}
+                                onClick={() => {
+                                    trackEvent("Contact", {
+                                        content_name: listing.title,
+                                        seller_name: seller?.name,
+                                        seller_phone: seller?.phone
+                                    });
+                                }}
                                 className="mt-4 block w-full text-center bg-pink-600 text-white py-2 rounded-lg font-medium hover:bg-pink-700 transition"
                             >
                                 <Phone className="inline-block mr-2" size={18} />
                                 Call Now
                             </a>
+
                         )}
                     </div>
 

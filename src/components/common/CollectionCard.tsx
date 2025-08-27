@@ -2,6 +2,7 @@ import { ShoppingCart } from "lucide-react";
 import type { Listing } from "../../types/listing";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../../Context/CartContext";
+import { trackEvent } from "../../lib/initPixel";
 import { getImageUrl } from "../../utils/image";
 
 export const CollectionCard = ({ listing }: { listing: Listing }) => {
@@ -11,11 +12,27 @@ export const CollectionCard = ({ listing }: { listing: Listing }) => {
   if (!listing) return null;
 
   const handleCardClick = () => {
+    trackEvent("ViewContent", {
+      content_ids: [listing._id],
+      content_name: listing.title,
+      content_type: "product",
+      value: Number(listing.price) || 0,
+      currency: "AWG"
+    });
     navigate(`/listing/${listing._id}`);
   };
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.stopPropagation();
+    trackEvent("AddToCart", {
+      content_ids: [listing._id],           // unique ID
+      content_name: listing.title,         // product name
+      content_type: "product",             // required for some setups
+      value: Number(listing.price) || 0,   // numeric value
+      currency: "AWG",                     // your currency
+      quantity: 1
+    });
+
     addToCart(listing);
     navigate("/cart");
   };

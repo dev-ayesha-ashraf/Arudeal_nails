@@ -1,16 +1,16 @@
-import axios from "axios";
+// import axios from "axios";
 
-interface Category {
-  _id: string;
-  name: string;
-}
+// interface Category {
+//   _id: string;
+//   name: string;
+// }
 
-interface Pixel {
-  _id: string;
-  categoryId: Category;
-  pixelId: string;
-  createdAt: string;
-}
+// interface Pixel {
+//   _id: string;
+//   categoryId: Category;
+//   pixelId: string;
+//   createdAt: string;
+// }
 
 /**
  * Dynamically loads and initializes the Meta Pixel script
@@ -46,13 +46,14 @@ export const initPixel = (pixelId: string) => {
 
 export const loadNailsPixel = async () => {
   try {
-    const apiBase = import.meta.env.VITE_API_URL;
-    const res = await axios.get<Pixel[]>(`${apiBase}/pixel`);
-    const nailsPixel = res.data.find(
-      (p) => p.categoryId?.name?.toLowerCase() === "nails" && !!p.pixelId
-    );
+    // const apiBase = import.meta.env.VITE_API_URL;
+    // const res = await axios.get<Pixel[]>(`${apiBase}/pixel`);
+    // const nailsPixel = res.data.find(
+    //   (p) => p.categoryId?.name?.toLowerCase() === "nails" && !!p.pixelId
+    // );
+    const nailsPixel = "1415337679724438"
     if (nailsPixel) {
-      initPixel(nailsPixel.pixelId);
+      initPixel(nailsPixel);
     }
   } catch (err) {
     console.error("Failed to load pixel:", err);
